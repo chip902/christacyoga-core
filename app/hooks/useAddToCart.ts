@@ -3,12 +3,13 @@ import { useState } from "react";
 import axios from "axios";
 import { useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
-import { toaster } from "@/src/components/ui/toaster";
+import { useToast } from "@chakra-ui/react";
 
 export const useAddToCart = (productId: string) => {
 	const [isLoading, setIsLoading] = useState(false);
 	const queryClient = useQueryClient();
 	const router = useRouter();
+	const toaster = useToast();
 
 	const addToCart = async () => {
 		setIsLoading(true);
