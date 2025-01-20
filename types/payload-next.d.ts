@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 // types/payload-next.d.ts
 
 declare module "@payloadcms/next-payload" {

@@ -1,35 +1,46 @@
 // app/[...slug]/page.tsx
 import { notFound } from "next/navigation";
-import payload from "payload";
+import { initPayload } from "@/lib/payload";
 import { DefaultLayout } from "../layouts/DefaultLayout";
-import { ReactNode } from "react";
+import { LandingLayout } from "../layouts/LandingLayout";
+import { BlogLayout } from "../layouts/BlogLayout";
 
-export type LayoutType = "default" | "landing" | "blog";
+const layouts = {
+	default: DefaultLayout,
+	landing: LandingLayout,
+	blog: BlogLayout,
+} as const;
 
-const layouts: Record<LayoutType, ({ children }: { children: ReactNode }) => JSX.Element> = {
-	default: ({ children }) => <div>{children}</div>, // Example default layout
-	landing: ({ children }) => <main className="landing">{children}</main>, // Example landing page layout
-	blog: ({ children }) => <article>{children}</article>, // Example blog post layout
-};
 async function getPage(slug: string) {
-	const pages = await payload.find({
-		collection: "pages",
-		where: {
-			slug: {
-				equals: slug,
-			},
-		},
-	});
+	try {
+		// Make sure to initialize payload before using it
+		const payloadClient = await initPayload();
 
-	if (!pages.docs[0]) {
+		// Now we can safely use the initialized client
+		const pages = await payloadClient.find({
+			collection: "pages",
+			where: {
+				slug: {
+					equals: slug,
+				},
+			},
+		});
+
+		return pages.docs[0];
+	} catch (error) {
+		console.error("Error fetching page:", error);
 		return null;
 	}
+}
 
-	return pages.docs[0];
+async function getSlugFromParams(params: { slug: string[] }) {
+	// Ensure params are fully resolved
+	const resolvedParams = await Promise.resolve(params);
+	return resolvedParams.slug.join("/");
 }
 
 export async function generateMetadata({ params }: { params: { slug: string[] } }) {
-	const slug = params.slug.join("/");
+	const slug = await getSlugFromParams(params);
 	const page = await getPage(slug);
 
 	if (!page) {
@@ -42,17 +53,20 @@ export async function generateMetadata({ params }: { params: { slug: string[] } 
 	};
 }
 
-export default async function Page({ params }: { params: { slug: string[] } }) {
-	const slug = params.slug.join("/");
+export default async function Page({ params }) {
+	const slug = await getSlugFromParams(params);
 	const page = await getPage(slug);
 
 	if (!page) {
 		notFound();
 	}
 
-	const layoutKey: LayoutType = (page.layout as LayoutType) || "default";
+	const Layout = layouts[page.layout as keyof typeof layouts] || DefaultLayout;
 
-	const Layout = layouts[layoutKey];
-
-	return <Layout>{children}</Layout>;
+	return (
+		<Layout>
+			<h1>{page.title}</h1>
+			<div dangerouslySetInnerHTML={{ __html: page.content }} />
+		</Layout>
+	);
 }
