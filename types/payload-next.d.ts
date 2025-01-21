@@ -1,32 +1,10 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 // types/payload-next.d.ts
-
-declare module "@payloadcms/next-payload" {
-	import { Config } from "payload/config";
+declare module "@payloadcms/next" {
 	import { NextRequest } from "next/server";
+	import { Payload } from "payload";
 
-	interface PayloadClientConfig {
-		buildConfig: Config;
-		auth?: {
-			verify: (req: NextRequest) => Promise<
-				| {
-						id: string;
-						email: string;
-						role?: string;
-						[key: string]: any;
-				  }
-				| false
-			>;
-		};
-	}
+	export function nextHandler(payload: Payload): (request: NextRequest) => Promise<Response>;
 
-	interface PayloadRouteHandlers {
-		GET: (req: NextRequest) => Promise<Response>;
-		POST: (req: NextRequest) => Promise<Response>;
-		PATCH: (req: NextRequest) => Promise<Response>;
-		PUT: (req: NextRequest) => Promise<Response>;
-		DELETE: (req: NextRequest) => Promise<Response>;
-	}
-
-	export function createPayloadClient(config: PayloadClientConfig): PayloadRouteHandlers;
+	export function adminHandler(payload: Payload): (request: NextRequest) => Promise<Response>;
 }

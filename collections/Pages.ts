@@ -20,6 +20,9 @@ export const Pages: CollectionConfig = {
 			type: "text",
 			required: true,
 			unique: true,
+			admin: {
+				description: 'The URL path for this page (e.g., "about" or "contact")',
+			},
 		},
 		{
 			name: "layout",
@@ -35,24 +38,18 @@ export const Pages: CollectionConfig = {
 		{
 			name: "content",
 			type: "richText",
-			required: true,
 		},
 		{
-			name: "seo",
+			name: "meta",
 			type: "group",
 			fields: [
-				{
-					name: "title",
-					type: "text",
-				},
 				{
 					name: "description",
 					type: "textarea",
 				},
 				{
-					name: "image",
-					type: "upload",
-					relationTo: "media",
+					name: "keywords",
+					type: "text",
 				},
 			],
 		},

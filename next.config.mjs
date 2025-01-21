@@ -1,6 +1,10 @@
+// next.config.mjs
 /** @type {import('next').NextConfig} */
+
+import { withPayload } from '@payloadcms/next/withPayload'
+
 const nextConfig = {
-	webpack: (config, { isServer }) => {
+	webpack: (config) => {
 		config.module = {
 			...config.module,
 			exprContextCritical: false,
@@ -12,18 +16,7 @@ const nextConfig = {
 		reactCompiler: false,
 		swcPlugins: [],
 	},
-	rewrites: async () => {
-		return [
-			{
-				source: "/admin",
-				destination: "/api/payload/admin",
-			},
-			{
-				source: "/admin/:path*",
-				destination: "/api/payload/admin/:path*",
-			},
-		];
-	},
+
 };
 
-export default nextConfig;
+export default withPayload(nextConfig);

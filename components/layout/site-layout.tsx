@@ -3,7 +3,7 @@
 import { Box } from "@chakra-ui/react";
 import { NavBar } from "../NavBar";
 import PrivacyBanner from "../PrivacyBanner";
-import useResponsive from "@/app/hooks/useResponsive";
+import useResponsive from "@/app/(my-app)/hooks/useResponsive";
 import ShoppingCartPopout from "../ShoppingCartPopout";
 
 export default function SiteLayout({ children }: { children: React.ReactNode }) {

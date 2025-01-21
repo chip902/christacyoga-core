@@ -16,7 +16,6 @@ export const Users: CollectionConfig = {
 	},
 	admin: {
 		useAsTitle: "email",
-		group: "Admin",
 	},
 	access: {
 		// Only admins can create admin users
@@ -44,24 +43,14 @@ export const Users: CollectionConfig = {
 	},
 	fields: [
 		{
-			name: "email",
-			type: "email",
-			required: true,
-			unique: true,
-		},
-		{
 			name: "role",
 			type: "select",
-			required: true,
-			defaultValue: "member",
 			options: [
 				{ label: "Admin", value: "admin" },
 				{ label: "Member", value: "member" },
 			],
-			access: {
-				// Only admins can change roles
-				update: ({ req: { user } }) => user?.role === "admin",
-			},
+			required: true,
+			defaultValue: "member",
 		},
 		{
 			name: "firstName",
@@ -76,18 +65,20 @@ export const Users: CollectionConfig = {
 		{
 			name: "phoneNumber",
 			type: "text",
-		},
-		{
-			name: "stripeCustomerId",
-			type: "text",
-			admin: {
-				hidden: true,
-			},
+			required: false,
 		},
 		{
 			name: "acceptedTerms",
 			type: "checkbox",
 			required: true,
+			defaultValue: false,
+		},
+		{
+			name: "stripeCustomerId",
+			type: "text",
+			admin: {
+				readOnly: true,
+			},
 		},
 	],
 	timestamps: true,

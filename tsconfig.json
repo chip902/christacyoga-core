@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "baseUrl": ".",
     "target": "esnext",
     "lib": [
       "dom",
@@ -20,6 +21,10 @@
     "isolatedModules": true,
     "jsx": "preserve",
     "incremental": true,
+    "types": [
+      "express",
+      "node"
+    ],
     "plugins": [
       {
         "name": "next"
@@ -42,7 +47,8 @@
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts",
-    "lib/*.ts"
+    "lib/*.ts",
+    "next.config.js"
   ],
   "exclude": [
     "node_modules"

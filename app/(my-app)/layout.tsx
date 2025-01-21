@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 import { Outfit } from "next/font/google";
 import { GoogleTagManager } from "@next/third-parties/google";
 import { RootProvider } from "./providers/root-provider";
-import SiteLayout from "../components/layout/site-layout";
+import SiteLayout from "@/components/layout/site-layout";
 import "./globals.css";
 
 const outfit = Outfit({

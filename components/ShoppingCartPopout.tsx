@@ -1,6 +1,6 @@
 "use client";
 import { Stack, Box, Text, Button, Badge, IconButton, Spinner, Center, useDisclosure } from "@chakra-ui/react";
-import useCart from "@/app/hooks/useCart";
+import useCart from "@/app/(my-app)/hooks/useCart";
 import { MdShoppingCart } from "react-icons/md";
 import { useEffect, useState } from "react";
 import { CartItem } from "@/types";
@@ -18,6 +18,7 @@ const ShoppingCartPopout = () => {
 	const [loadingStates, setLoadingStates] = useState<LoadingState>({});
 	const { onOpen, onClose, isOpen } = useDisclosure();
 	const queryClient = new QueryClient();
+
 	useEffect(() => {
 		if (cartItems) {
 			const initialState = cartItems.reduce((acc: object, item: { id: string }) => ({ ...acc, [item.id]: false }), {});
@@ -30,11 +31,9 @@ const ShoppingCartPopout = () => {
 
 	return (
 		<Box position="relative">
-			<Popover isOpen={isOpen} onOpen={onOpen}>
+			<Popover isOpen={isOpen} onClose={onClose} onOpen={onOpen}>
 				<PopoverTrigger>
-					<IconButton aria-label="Shopping cart">
-						<MdShoppingCart />
-					</IconButton>
+					<IconButton aria-label="Shopping cart" icon={<MdShoppingCart />} />
 				</PopoverTrigger>
 				{cartItemsCount > 0 && (
 					<Badge colorScheme="red" borderRadius="2rem" position="absolute" zIndex={10} top="-5px" right="-15px">

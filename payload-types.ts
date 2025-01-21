@@ -69,8 +69,8 @@ export interface User {
   firstName: string;
   lastName: string;
   phoneNumber?: string | null;
-  stripeCustomerId?: string | null;
   acceptedTerms: boolean;
+  stripeCustomerId?: string | null;
   updatedAt: string;
   createdAt: string;
   email: string;
@@ -128,9 +128,12 @@ export interface Media {
 export interface Page {
   id: number;
   title: string;
+  /**
+   * The URL path for this page (e.g., "about" or "contact")
+   */
   slug: string;
   layout: 'default' | 'landing' | 'blog';
-  content: {
+  content?: {
     root: {
       type: string;
       children: {
@@ -144,11 +147,10 @@ export interface Page {
       version: number;
     };
     [k: string]: unknown;
-  };
-  seo?: {
-    title?: string | null;
+  } | null;
+  meta?: {
     description?: string | null;
-    image?: (number | null) | Media;
+    keywords?: string | null;
   };
   updatedAt: string;
   createdAt: string;
@@ -223,8 +225,8 @@ export interface UsersSelect<T extends boolean = true> {
   firstName?: T;
   lastName?: T;
   phoneNumber?: T;
-  stripeCustomerId?: T;
   acceptedTerms?: T;
+  stripeCustomerId?: T;
   updatedAt?: T;
   createdAt?: T;
   email?: T;
@@ -288,12 +290,11 @@ export interface PagesSelect<T extends boolean = true> {
   slug?: T;
   layout?: T;
   content?: T;
-  seo?:
+  meta?:
     | T
     | {
-        title?: T;
         description?: T;
-        image?: T;
+        keywords?: T;
       };
   updatedAt?: T;
   createdAt?: T;

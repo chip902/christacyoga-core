@@ -1,30 +1,37 @@
 // lib/payload.ts
-import payload from "payload";
-import type { Payload } from "payload";
+import payload, { Payload } from "payload";
+import path from "path";
+import { fileURLToPath } from "url";
+import type { InitOptions } from "payload";
 import config from "../payload.config";
 
-let cached = (global as any).payload;
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
-if (!cached) {
-	cached = (global as any).payload = {
-		client: null,
-		promise: null,
-	};
+interface PayloadCache {
+	client: Payload | null;
+	promise: Promise<Payload> | null;
+}
+
+let cached = ((global as any).payload as PayloadCache) || {
+	client: null,
+	promise: null,
+};
+
+if (!(global as any).payload) {
+	(global as any).payload = cached;
 }
 
 export const getPayloadClient = async (): Promise<Payload> => {
-	if (!process.env.PAYLOAD_SECRET) {
-		throw new Error("PAYLOAD_SECRET is missing");
-	}
-
 	if (cached.client) {
 		return cached.client;
 	}
 
 	if (!cached.promise) {
 		cached.promise = payload.init({
-			config,
-		});
+			...config,
+		} as unknown as InitOptions);
+
+		//cached.promise = payload.init(options);
 	}
 
 	try {
@@ -36,5 +43,3 @@ export const getPayloadClient = async (): Promise<Payload> => {
 
 	return cached.client;
 };
-// For the route.ts file
-export { getPayloadClient as initPayload };
