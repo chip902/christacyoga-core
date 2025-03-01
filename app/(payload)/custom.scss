@@ -1,0 +1,83 @@
+// Ensure proper contrast for the admin interface
+html[data-theme='light'] {
+    // Light theme colors
+    --theme-elevation-0: #ffffff;
+    --theme-elevation-50: #f7f7f2;
+    --theme-elevation-100: #e8e6d9;
+    --theme-elevation-200: #d4d1bf;
+    --theme-elevation-300: #bfbba3;
+    --theme-elevation-400: #aaa588;
+    --theme-elevation-500: #958f6d;
+    --theme-elevation-600: #777257;
+    --theme-elevation-700: #595542;
+    --theme-elevation-800: #3b382c;
+    --theme-elevation-900: #1e1c16;
+    
+    // Form backgrounds
+    --theme-input-bg: var(--theme-elevation-0);
+    --theme-text: var(--theme-elevation-900);
+  }
+  
+  // Login form styles
+  .payload {
+    &__admin-login {
+      background-color: var(--theme-elevation-0) !important;
+      min-height: 100vh;
+  
+      &__form {
+        background-color: var(--theme-elevation-0) !important;
+        padding: 2rem !important;
+        border-radius: 8px !important;
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06) !important;
+  
+        input {
+          background-color: var(--theme-elevation-0) !important;
+          border: 1px solid var(--theme-elevation-300) !important;
+          color: var(--theme-text) !important;
+  
+          &:focus {
+            border-color: var(--theme-elevation-500) !important;
+            box-shadow: 0 0 0 1px var(--theme-elevation-500) !important;
+          }
+        }
+  
+        button {
+          background-color: var(--theme-elevation-500) !important;
+          color: white !important;
+          border-radius: 9999px !important;
+  
+          &:hover {
+            background-color: var(--theme-elevation-600) !important;
+          }
+        }
+      }
+    }
+  }
+  
+  // Form elements
+  .field-type {
+    margin-bottom: 1rem !important;
+    
+    label {
+      color: var(--theme-text) !important;
+      margin-bottom: 0.5rem !important;
+    }
+  
+    input, select, textarea {
+      background-color: var(--theme-input-bg) !important;
+      border: 1px solid var(--theme-elevation-300) !important;
+      color: var(--theme-text) !important;
+      border-radius: 4px !important;
+      padding: 0.5rem !important;
+  
+      &:focus {
+        border-color: var(--theme-elevation-500) !important;
+        box-shadow: 0 0 0 1px var(--theme-elevation-500) !important;
+      }
+    }
+  }
+  
+  // Ensure proper contrast for text
+  h1, h2, h3, h4, h5, h6, p, span, label {
+    color: var(--theme-text) !important;
+  }

@@ -16,7 +16,9 @@ const nextConfig = {
 		reactCompiler: false,
 		swcPlugins: [],
 	},
-
+	sassOptions: {
+		includePaths: ['./app'],
+	},
 };
 
 export default withPayload(nextConfig);

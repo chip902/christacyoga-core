@@ -1,33 +1,32 @@
-// app/layout.tsx
-import type { Metadata } from "next";
-import { Outfit } from "next/font/google";
-import { GoogleTagManager } from "@next/third-parties/google";
-import { RootProvider } from "./providers/root-provider";
+"use client";
+
+import { Box, ChakraProvider } from "@chakra-ui/react";
+import { themeConfig } from "./theme.config";
+import { NavBar } from "@/components/NavBar";
 import SiteLayout from "@/components/layout/site-layout";
-import "./globals.css";
+import { useState } from "react";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
-const outfit = Outfit({
-	subsets: ["latin"],
-	display: "swap",
-	variable: "--font-outfit",
-});
+export default function MyAppLayout({ children }: { children: React.ReactNode }) {
+	const [queryClient] = useState(
+		() =>
+			new QueryClient({
+				defaultOptions: {
+					queries: {
+						staleTime: 60 * 1000, // 1 minute
+					},
+				},
+			})
+	);
 
-export const metadata: Metadata = {
-	title: "Christa C Yoga",
-	description: "Find your inner peace through mindful movement",
-};
-
-export default function RootLayout({ children }: { children: React.ReactNode }) {
 	return (
-		<html lang="en" suppressHydrationWarning>
-			<body className={outfit.variable}>
-				<RootProvider>
-					<SiteLayout>
-						<GoogleTagManager gtmId="GTM-XXXXX" />
-						{children}
-					</SiteLayout>
-				</RootProvider>
-			</body>
-		</html>
+		<QueryClientProvider client={queryClient}>
+			<ChakraProvider theme={themeConfig}>
+				<SiteLayout>
+					<NavBar />
+					<Box pt="60px">{children}</Box>
+				</SiteLayout>
+			</ChakraProvider>
+		</QueryClientProvider>
 	);
 }

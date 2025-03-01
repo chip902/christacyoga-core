@@ -1,49 +1,42 @@
-// components/NavBar/NavBar.tsx
-import { Box, Container, HStack, Button, Image } from "@chakra-ui/react";
+"use client";
+
+import { Box, Container, Link as ChakraLink, Flex, IconButton, useDisclosure } from "@chakra-ui/react";
 import NextLink from "next/link";
+import ShoppingCartPopout from "./ShoppingCartPopout";
 
 export const NavBar = () => {
-	return (
-		<Box as="nav" position="fixed" top="0" left="0" right="0" zIndex="1000" bg="white" boxShadow="sm" width="100%" margin="0" padding="0">
-			<Container maxW="container.xl" py={4} display="flex" justifyContent="space-between" alignItems="center">
-				<NextLink href="/" passHref>
-					<Box as="a">
-						<Image src="/logo/logo_324x324.jpg" alt="Logo" h="50px" w="auto" objectFit="contain" />
-					</Box>
-				</NextLink>
+	const { isOpen, onToggle } = useDisclosure();
 
-				<HStack spacing={8}>
-					<NextLink href="/" passHref>
-						<Button as="a" variant="ghost">
-							Home
-						</Button>
+	return (
+		<Box as="nav" position="fixed" top="0" left="0" right="0" zIndex="1000" bg="white" boxShadow="sm">
+			<Container maxW="container.xl" py={4}>
+				<Flex justify="space-between" align="center">
+					{/* Logo/Home link */}
+					<NextLink href="/" passHref legacyBehavior>
+						<ChakraLink _hover={{ textDecoration: "none" }} display="flex" alignItems="center">
+							{/* Add your logo image or text here */}
+							<Box>Logo</Box>
+						</ChakraLink>
 					</NextLink>
-					<NextLink href="/about" passHref>
-						<Button as="a" variant="ghost">
-							About
-						</Button>
-					</NextLink>
-					<NextLink href="/classes" passHref>
-						<Button as="a" variant="ghost">
-							Classes
-						</Button>
-					</NextLink>
-					<NextLink href="/workshops" passHref>
-						<Button as="a" variant="ghost">
-							Workshops
-						</Button>
-					</NextLink>
-					<NextLink href="/contact" passHref>
-						<Button as="a" variant="ghost">
-							Contact
-						</Button>
-					</NextLink>
-					<NextLink href="/auth/login" passHref>
-						<Button as="a" variant="solid" colorScheme="brand">
-							Sign In
-						</Button>
-					</NextLink>
-				</HStack>
+
+					{/* Navigation Links */}
+					<Flex gap={8} display={{ base: "none", md: "flex" }}>
+						<NextLink href="/about" passHref legacyBehavior>
+							<ChakraLink>About</ChakraLink>
+						</NextLink>
+						<NextLink href="/classes" passHref legacyBehavior>
+							<ChakraLink>Classes</ChakraLink>
+						</NextLink>
+						<NextLink href="/contact" passHref legacyBehavior>
+							<ChakraLink>Contact</ChakraLink>
+						</NextLink>
+					</Flex>
+
+					{/* Cart */}
+					<Box>
+						<ShoppingCartPopout />
+					</Box>
+				</Flex>
 			</Container>
 		</Box>
 	);

@@ -2,7 +2,7 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 
-const protectedPaths = ["/profile", "/bookings", "/workshops", "/classes"];
+const protectedPaths = ["/profile", "/bookings", "/classes"];
 
 export const config = {
 	matcher: ["/((?!api|_next/static|_next/image|favicon.ico|admin|_payload).*)"],
